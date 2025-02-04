@@ -14,7 +14,15 @@ BOOKS_DATABASE = [
 
 # TODO написать класс Book
 class Book:
+    """Класс, описывающий книгу"""
     def __init__(self, id_: int, name: str, pages: int):
+        """
+        Конструктор экземпляра класса.
+
+        :param id_: Идентификатор книги
+        :param name: Название книги
+        :param pages: Количество страниц в книге
+        """
         self.id_ = id_
         self.name = name
         self.pages = pages
@@ -28,21 +36,39 @@ class Book:
 
 # TODO написать класс Library
 class Library:
+    """Класс, описывающий библиотеку с книгами."""
     def __init__(self, books: list = None):
+        """
+        Конструктор экземпляра класса.
+
+        :param books: список книг, если параметр не задан, то будет создан пустой список
+        """
         if books is None:
             books = list()
         self.books = books
 
     def get_next_book_id(self) -> int:
-        list_len = len(self.books)
-        if list_len == 1:
-            return 1
-        return list_len + 1
+        """
+        Получает идентификатор следующей книги, которая будет добавлена в библиотеку.
 
-    def get_index_by_book_id(self, id_: int) -> int:
+        :return: идентификатор (идентификатор последней книги в списке + 1 или 1, если список пуст)
+        """
+        if self.books:
+            return self.books[-1].id_ + 1
+        return 1
+
+    def get_index_by_book_id(self, id_: int):
+        """
+        Поиск индекса книги в списке books по идентификатору (id_)
+
+        :param id_: идентификатор книги
+        :return: индекс книги в списке, если она в нём присутствует, иначе ValueError
+        """
         for index, book in enumerate(self.books):
             if book.id_ == id_:
                 return index
+
+        return ValueError("Книги с запрашиваемым id не существует")
 
 
 if __name__ == '__main__':
@@ -56,3 +82,4 @@ if __name__ == '__main__':
     print(library_with_books.get_next_book_id())  # проверяем следующий id для непустой библиотеки
 
     print(library_with_books.get_index_by_book_id(1))  # проверяем индекс книги с id = 1
+
